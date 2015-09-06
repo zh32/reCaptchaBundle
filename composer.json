@@ -1,0 +1,26 @@
+{
+    "name": "zh32/recaptcha-bundle",
+    "type": "recaptcha-bundle",
+    "description": "reCaptcha bundle",
+    "keywords": ["symfony2", "recaptcha"],
+    "homepage": "https://github.com/zh32/reCaptchabundle",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "zh32",
+            "email": "devnull@zh32.de"
+        }
+    ],
+    "require": {
+        "php": ">=5.3.0",
+        "symfony/form": "^2.7",
+        "symfony/config": "^2.7",
+        "symfony/http-foundation": "^2.7",
+        "google/recaptcha": "^1.1"
+    },
+    "autoload": {
+        "psr-4": {
+            "Craftlist\\CaptchaBundle\\": "/"
+        }
+    }
+}
