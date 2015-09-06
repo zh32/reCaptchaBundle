@@ -4,6 +4,7 @@ namespace Craftlist\Bundle\CaptchaBundle\DependencyInjection;
 
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\Config\FileLocator;
+use Symfony\Component\DependencyInjection\Exception\BadMethodCallException;
 use Symfony\Component\HttpKernel\DependencyInjection\Extension;
 use Symfony\Component\DependencyInjection\Loader;
 
@@ -30,4 +31,30 @@ class CraftlistCaptchaExtension extends Extension {
         $container->setParameter('twig.form.resources', array_merge(array('CraftlistCaptchaBundle::fields.html.twig'), $resources));
 
     }
+
+    /**
+     * Returns the recommended alias to use in XML.
+     *
+     * This alias is also the mandatory prefix to use when using YAML.
+     *
+     * This convention is to remove the "Extension" postfix from the class
+     * name and then lowercase and underscore the result. So:
+     *
+     *     AcmeHelloExtension
+     *
+     * becomes
+     *
+     *     acme_hello
+     *
+     * This can be overridden in a sub-class to specify the alias manually.
+     *
+     * @return string The alias
+     *
+     * @throws BadMethodCallException When the extension name does not follow conventions
+     */
+    public function getAlias() {
+        return "recaptcha";
+    }
+
+
 }
