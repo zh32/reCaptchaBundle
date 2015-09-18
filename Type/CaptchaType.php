@@ -6,6 +6,7 @@
 namespace Craftlist\Bundle\CaptchaBundle\Type;
 
 use Craftlist\Bundle\CaptchaBundle\Service\ReCaptchaService;
+use Craftlist\Bundle\CaptchaBundle\Service\Whitelist;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormError;
@@ -30,13 +31,20 @@ class CaptchaType extends AbstractType {
     private $captchaService;
 
     /**
+     * @var Whitelist
+     */
+    private $whitelist;
+
+    /**
      * CaptchaType constructor.
      * @param RequestStack $requestStack
      * @param ReCaptchaService $captchaService
+     * @param Whitelist $whitelist
      */
-    public function __construct(RequestStack $requestStack, ReCaptchaService $captchaService) {
+    public function __construct(RequestStack $requestStack, ReCaptchaService $captchaService, Whitelist $whitelist) {
         $this->requestStack = $requestStack;
         $this->captchaService = $captchaService;
+        $this->whitelist = $whitelist;
     }
 
     /**
@@ -45,13 +53,20 @@ class CaptchaType extends AbstractType {
     public function buildForm(FormBuilderInterface $builder, array $options) {
         $validator = function (FormEvent $event) {
             $request = $this->requestStack->getCurrentRequest();
+
+            $remoteIp = $request->getClientIp();
+            if ($this->whitelist->isWhitelisted($remoteIp)) {
+                return;
+            }
+
             $response = $request->request->get(self::PARAMETER_NAME);
             if (!empty($response)) {
-                $remoteIp = $request->getClientIp();
+
                 if ($this->captchaService->verify($response, $remoteIp)->isSuccess()) {
                     return;
                 }
             }
+
             $event->getForm()->getRoot()->get("captcha")->addError(new FormError("captcha failed"));
         };
         $builder->addEventListener(FormEvents::POST_SUBMIT, $validator);

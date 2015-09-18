@@ -15,8 +15,13 @@
                  id="craftlist__captcha.service.captcha_type">
             <argument id="request_stack" type="service"/>
             <argument id="craftlist__captcha.service.re_captcha_service" type="service"/>
+            <argument id="craftlist__captcha.service.whitelist" type="service"/>
             <tag alias="captcha" name="form.type"/>
         </service>
 
+        <service class="Craftlist\Bundle\CaptchaBundle\Service\Whitelist"
+                 id="craftlist__captcha.service.whitelist">
+            <argument>%captcha.whitelist%</argument>
+        </service>
     </services>
 </container>

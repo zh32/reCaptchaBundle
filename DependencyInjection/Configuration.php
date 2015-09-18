@@ -20,8 +20,11 @@ class Configuration implements ConfigurationInterface {
 
         $rootNode
             ->children()
-            ->scalarNode("secret")->isRequired()->end()
-            ->scalarNode("id")->isRequired()->end()
+                ->scalarNode("secret")->isRequired()->end()
+                ->scalarNode("id")->isRequired()->end()
+                ->arrayNode("whitelist")
+                    ->prototype("scalar")->end()
+                ->end()
             ->end();
 
         return $treeBuilder;

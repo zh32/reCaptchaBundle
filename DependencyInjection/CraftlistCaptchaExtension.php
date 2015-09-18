@@ -23,6 +23,7 @@ class CraftlistCaptchaExtension extends Extension {
 
         $container->setParameter("captcha.secret", $config["secret"]);
         $container->setParameter("captcha.id", $config["id"]);
+        $container->setParameter("captcha.whitelist", $config["whitelist"]);
 
         $loader = new Loader\XmlFileLoader($container, new FileLocator(__DIR__ . '/../Resources/config'));
         $loader->load('services.xml');

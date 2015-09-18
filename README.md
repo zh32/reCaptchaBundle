@@ -32,6 +32,7 @@ Add the following configuration to your `app/config/config.yml`:
     recaptcha:
         id:         <your recaptcha id>
         secret:     <your recaptcha secret>
+        whitelist:     [ "127.0.0.1"]
 
 Usage
 =====
